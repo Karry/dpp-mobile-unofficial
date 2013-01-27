@@ -25,7 +25,7 @@ Header("Content-Type: text/html; charset=utf-8");
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="cs">
   <head>
     <meta http-equiv="Content-Type" content="application/xhtml+xml; charset=utf-8" />
-    <meta name="viewport" content="width=device-width, minimum-scale=1.0, maximum-scale=1.0"/>
+    <meta name="viewport" content="width=device-width, minimum-scale=1.0, maximum-scale=2.0"/>
 
     <title>Mobilní rozcestník</title>
 
@@ -119,7 +119,7 @@ Header("Content-Type: text/html; charset=utf-8");
 
       <hr />
 
-      <p>Napraseno v PHP jen aby to fungovalo. Pokud by jste chtěli něco podobného, <a href="mailto:lukas.karas@centrum.cz">napište mi o zdrojáky</a> (licence GPL).</p>
+      <p>Napraseno v PHP jen aby to fungovalo. Zdrojáky (pod GPLv2) jsou dostupné na <a href="http://gitorious.org/dpp-mobile-web/">Gitorious</a>.</p>
 
     </div>
 

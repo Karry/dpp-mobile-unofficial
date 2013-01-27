@@ -1,0 +1,22 @@
+
+## tady nějake nastavení pro čistotu kódu.
+## nechám si vypisovat všechny varování a budu tolerovat pouze nový zápis předávání proměnných
+php_flag register_globals off
+php_flag register_long_arrays off
+php_value error_reporting  2047
+php_flag short_open_tag off
+
+php_value post_max_size 100M
+php_value upload_max_filesize 20M
+php_value memory_limit 128M
+
+## for photo uploads to web
+php_value max_input_time 1200
+php_value max_execution_time 300
+
+
+RewriteEngine on
+
+order deny,allow
+#deny from all
+allow from all

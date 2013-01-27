@@ -1,0 +1,41 @@
+#content{
+    padding:3px;
+    margin:0px;
+    top:0px;
+    left:0px;
+    right:0px;
+    bottom:0px;
+    /*width:514px;*/
+    /*background-color:white;*/
+    color:black;
+}
+
+body{
+    margin:0px;
+    padding:0px;
+
+
+}
+
+.from{
+    font-weight:bold;
+    display:block;
+    margin-top:10px;
+	
+}
+.to{
+    font-size:x-small;
+	
+}
+#towrapper{
+	width: 100%;
+	background-image: url('arrow-down.png');
+	background-repeat: no-repeat;  
+	background-position: right top; 
+}
+#fromwrapper{
+	width: 100%;
+	background-image: url('arrow-up.png');
+	background-repeat: no-repeat;  
+	background-position: right top; 
+}

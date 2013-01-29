@@ -20,15 +20,15 @@ function approximateDistance($lat1, $lon1, $lat2, $lon2) {
   return $R * $c;
 }
 
-function icon($alt, $img){
-  return "<img src=\"icons/".$img."\" alt=\"".$alt."\" /> ";
+function icon($alt, $img) {
+  return "<img src=\"icons/" . $img . "\" alt=\"" . $alt . "\" /> ";
 }
 
 function icons($typeArr) {
   $result = "";
   $duplicates = array();
   foreach ($typeArr as $type) {
-    if (array_key_exists( $type, $duplicates))
+    if (array_key_exists($type, $duplicates))
       continue;
 
     if ($type == "highway=bus_stop")
@@ -37,7 +37,7 @@ function icons($typeArr) {
       $result .= icon($type, "metro_p.gif");
     if ($type == "railway=tram_stop" || $type == "railway=halt")
       $result .= icon($type, "tram_p.gif");
-    
+
     $duplicates[$type] = 1;
   }
   return $result;
@@ -55,12 +55,28 @@ $lon1 = $lon - $magicConstant;
 $lat2 = $lat + $magicConstant;
 $lon2 = $lon + $magicConstant;
 
-$sql = ("select *, "
-        . "  pow(lat - $lat,2) + pow(lon - $lon,2) as distance, "
-        . "  GROUP_CONCAT(type) AS all_types "
-        . "from idos_geo_station "
-        . "where `lat` >= $lat1 and `lon` >= $lon1 and `lat` <= $lat2 and `lon` <= $lon2 group by name order by distance limit 5;");
-//echo $sql;
+$sql = ("SELECT \n"
+        . "  sub.*, \n"
+        . "  GROUP_CONCAT(sub.type) AS all_types, \n"
+        . "  MIN(sub.distance) AS distance \n"
+        . "FROM (\n"
+        . "  SELECT \n"
+        . "     geo.* \n"
+        . "  FROM(\n"
+        . "    SELECT\n"
+        . "       *,\n"
+        . "       POW(lat - $lat,2) + POW(lon - $lon,2) AS distance \n"
+        . "    FROM idos_geo_station AS geo \n"
+        . "    WHERE `lat` >= $lat1 AND `lon` >= $lon1 AND `lat` <= $lat2 AND `lon` <= $lon2\n"
+        . "  ) AS geo\n"
+        . "  ORDER BY geo.distance \n"
+        . ") AS sub\n"
+        . "GROUP BY sub.name \n"
+        . "ORDER BY sub.distance \n"
+        . "LIMIT 5;\n");
+
+//echo "<pre>$sql</pre>";
+
 $res = mysql_query($sql);
 if ($res === FALSE)
   return;

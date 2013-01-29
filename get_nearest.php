@@ -21,7 +21,7 @@ function approximateDistance($lat1, $lon1, $lat2, $lon2) {
 }
 
 function icon($alt, $img){
-  return "<img src=\"icons/".$img."\" alt=\"".$alt."\" />";
+  return "<img src=\"icons/".$img."\" alt=\"".$alt."\" /> ";
 }
 
 function icons($typeArr) {
@@ -43,8 +43,6 @@ function icons($typeArr) {
   return $result;
 }
 
-echo "<h4>Nejbližší:</h4>";
-
 $lat = $_GET['lat'] / 1;
 $lon = $_GET['lon'] / 1;
 
@@ -59,16 +57,20 @@ $lon2 = $lon + $magicConstant;
 
 $sql = ("select *, "
         . "  pow(lat - $lat,2) + pow(lon - $lon,2) as distance, "
-        . "  GROUP_CONCAT(type)"
+        . "  GROUP_CONCAT(type) AS all_types "
         . "from idos_geo_station "
         . "where `lat` >= $lat1 and `lon` >= $lon1 and `lat` <= $lat2 and `lon` <= $lon2 group by name order by distance limit 5;");
 //echo $sql;
 $res = mysql_query($sql);
+if ($res === FALSE)
+  return;
+
+echo "<h4>Nejbližší:</h4>";
 
 while ($station = mysql_fetch_assoc($res)) {
 
 
-  echo "<p>" . icons(explode(",", $station['type']))
+  echo "<p>" . icons(explode(",", $station['all_types']))
   . " <a href=\"javascript:hide('fromwrapper');show('towrapper');setValue('from', '" . $station['name'] . "');\">"
   . $station['name'] . "</a>"
   . " <small>(" . floor(approximateDistance($lat, $lon, $station['lat'], $station['lon'])) . " m)</small>"

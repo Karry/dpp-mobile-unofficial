@@ -38,6 +38,11 @@ Header("Content-Type: text/html; charset=utf-8");
       function hide(id){
         document.getElementById(id).style.display = "none";
       }
+      function hideAll(){
+        hide('fromwrapper');
+        hide('towrapper');
+        hide('viawrapper');
+      }
       function show(id){
         document.getElementById(id).style.display = "block";
       }
@@ -85,9 +90,9 @@ Header("Content-Type: text/html; charset=utf-8");
       <div style="float:right; margin-right:6px;"><img src="./dpplogo.png" alt="DPP logo" /></div>
 
       <form action="./spoj.php" method="get" id="form">
-        <div>z: <input type="text" value="" name="from" id="from" /> <a href="javascript:hide('towrapper');show('fromwrapper')">&lt;--</a></div>
-        <div>do: <input type="text" value="" name="to" id="to" /> <a href="javascript:hide('fromwrapper');show('towrapper')">&lt;--</a></div>
-        <div>přes: <input type="text" value="" name="via" id="via" /> </div>
+        <div>z:     <input type="text" value="" name="from" id="from" onclick="hideAll();show('fromwrapper')" /> <a href="javascript:hideAll();show('fromwrapper')">&lt;--</a></div>
+        <div>do:    <input type="text" value="" name="to"   id="to"   onclick="hideAll();show('towrapper')"   /> <a href="javascript:hideAll();show('towrapper')">&lt;--</a></div>
+        <div>přes:  <input type="text" value="" name="via"  id="via"  onclick="hideAll();show('viawrapper')"  /> <a href="javascript:hideAll();show('viawrapper')">&lt;--</a></div>
         <input type="hidden" value="<?php echo $userhash; ?>" name="userhash" />
         <div><input type="submit" value="HLEDEJ" /> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href="javascript: var from=getValue('from'); setValue('from', getValue('to')); setValue('to', from); ">&lt;- PROHOĎ -&gt;</a></div>
       </form>
@@ -101,7 +106,7 @@ Header("Content-Type: text/html; charset=utf-8");
 
         <?php
         foreach ($stations as $station) {
-          echo "<p><a href=\"javascript:hide('fromwrapper');show('towrapper');setValue('from', '" . $station['name'] . "');\">" . $station['name'] . "</a></p>";
+          echo "<p><a href=\"javascript:hideAll();show('towrapper');setValue('from', '" . $station['name'] . "');\">" . $station['name'] . "</a></p>";
         }
         ?>
 
@@ -112,6 +117,16 @@ Header("Content-Type: text/html; charset=utf-8");
         <?php
         foreach ($stations as $station) {
           echo "<p><a href=\"javascript:setValue('to', '" . $station['name'] . "');send('form')\">" . $station['name'] . "</a></p>"; //  (".$station['count'].")
+        }
+        ?>
+
+      </div>
+
+      <div id="viawrapper" style="display: none" >
+        <h3>Přes stanici</h3>
+        <?php
+        foreach ($stations as $station) {
+          echo "<p><a href=\"javascript:setValue('via', '" . $station['name'] . "');\">" . $station['name'] . "</a></p>"; //  (".$station['count'].")
         }
         ?>
 

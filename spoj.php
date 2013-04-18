@@ -126,26 +126,32 @@ preg_match_all('|<h1>([^<]*)</h1>|U', $content, $title, PREG_SET_ORDER);
 echo "<h3>".$title[0][1]."</h3>";
 
 //preg_match_all('|(<div class="spojeni">.*<hr/>)|U', $content, $items, PREG_SET_ORDER);
-$items = split('<div class="spojeni">',$content);
+//$items = split('<div class="spojeni',$content);
+$items = preg_split('/<div class="spojeni[^>]*>/',$content);
 
-for ($i= 1; $i< count($items); $i++){
-    echo "<hr />";
-    $lines = split ( "\n", strip_tags( $items[$i] ));
-    for ($line = 3; $line < count($lines); $line++){
-        $lines[$line] = trim($lines[$line]);
-        if ($lines[$line] == "" || $lines[$line] == "&nbsp;")
-            continue;
-        if (startsWith("cena",$lines[$line]))
-            break;
+if (is_bool($items) && !$items){
+  echo "Spoj nenalezen.";
+}else{
+  // skip first line with start of original document
+  for ($i= 1; $i< count($items); $i++){
+      echo "<hr />";
+      $lines = split ( "\n", strip_tags( $items[$i] ));
+      for ($line = 3; $line < count($lines); $line++){
+          $lines[$line] = trim($lines[$line]);
+          if ($lines[$line] == "" || $lines[$line] == "&nbsp;")
+              continue;
+          if (startsWith("cena",$lines[$line]))
+              break;
 
-        if (startsWith("ze stanice", $lines[$line]))
-            $lines[$line] = "<span class=\"from\">".trim(substr($lines[$line],strlen("ze stanice")))."</span>";
+          if (startsWith("ze stanice", $lines[$line]))
+              $lines[$line] = "<span class=\"from\">".trim(substr($lines[$line],strlen("ze stanice")))."</span>";
 
-        if (startsWith("do stanice", $lines[$line]))
-            $lines[$line] = "<span class=\"to\">".trim(substr($lines[$line],strlen("do stanice")))."</span>";
+          if (startsWith("do stanice", $lines[$line]))
+              $lines[$line] = "<span class=\"to\">".trim(substr($lines[$line],strlen("do stanice")))."</span>";
 
-        echo "<div>".$lines[$line]."</div>\n";
-    }
+          echo "<div>".$lines[$line]."</div>\n";
+      }
+  }
 }
 
 ?>

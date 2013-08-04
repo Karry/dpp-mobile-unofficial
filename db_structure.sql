@@ -1,5 +1,5 @@
-CREATE DATABASE `idos` DEFAULT CHARACTER SET utf8 COLLATE utf8_czech_ci;
-use idos;
+#CREATE DATABASE `idos` DEFAULT CHARACTER SET utf8 COLLATE utf8_czech_ci;
+#use idos;
 
 CREATE TABLE `idos_user` (
 `id` INT NOT NULL AUTO_INCREMENT PRIMARY KEY ,

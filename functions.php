@@ -15,10 +15,9 @@ function getUrl($url, $postData) {
     curl_setopt($ch, CURLOPT_USERAGENT, $agent);
     curl_setopt($ch, CURLOPT_HTTPHEADER, $header);
     curl_setopt($ch, CURLOPT_FOLLOWLOCATION, 1);
-    //if ($postData != NULL):
-        curl_setopt($ch, CURLOPT_POSTFIELDS, $postData);
-        
-    //endif;
+    if ($postData != NULL):
+        curl_setopt($ch, CURLOPT_POSTFIELDS, $postData);        
+    endif;
 
     $tmp = curl_exec ($ch);
 

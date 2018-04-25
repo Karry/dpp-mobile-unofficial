@@ -77,13 +77,13 @@ $sql = ("SELECT \n"
 
 //echo "<pre>$sql</pre>";
 
-$res = mysql_query($sql);
+$res = mysqli_query($link,$sql);
 if ($res === FALSE)
   return;
 
 echo "<h4>Nejbližší:</h4>";
 
-while ($station = mysql_fetch_assoc($res)) {
+while ($station = mysqli_fetch_assoc($res)) {
 
 
   echo "<p>" . icons(explode(",", $station['all_types']))

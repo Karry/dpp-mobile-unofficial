@@ -2,13 +2,13 @@
 
 include_once 'config.php';
 
-$link = mysql_connect($config['db_host'], $config['db_user'], $config['db_password']);
+$link = mysqli_connect($config['db_host'], $config['db_user'], $config['db_password']);
 if (!$link) {
-    die('Could not connect: ' . mysql_error());
+    die('Could not connect: ' . mysqli_error());
 }
-MySQL_Select_db($config['db']);
-mysql_query("SET CHARACTER SET utf8;");
-mysql_query("SET NAMES utf8;");
+MySQLi_Select_db($link, $config['db']);
+mysqli_query($link, "SET CHARACTER SET utf8;");
+mysqli_query($link, "SET NAMES utf8;");
 
 
 if (array_key_exists('userhash', $_COOKIE)){
@@ -21,12 +21,12 @@ if (array_key_exists('userhash', $_COOKIE)){
 
 setcookie("userhash", $userhash,  time()+(365*24*3600));
 
-$res = mysql_query("SELECT * FROM idos_user AS u WHERE u.hash = '".mysql_real_escape_string($userhash)."';");
-if (mysql_num_rows($res) <= 0){
-	mysql_query("INSERT INTO idos_user (hash, last_access) VALUES ('".mysql_real_escape_string($userhash)."', NOW());");
-	$userid = mysql_insert_id();
+$res = mysqli_query($link, "SELECT * FROM idos_user AS u WHERE u.hash = '".mysqli_real_escape_string($link,$userhash)."';");
+if (mysqli_num_rows($res) <= 0){
+	mysqli_query($link, "INSERT INTO idos_user (hash, last_access) VALUES ('".mysqli_real_escape_string($link,$userhash)."', NOW());");
+	$userid = mysqli_insert_id($link);
 }else{
-	$row = mysql_fetch_assoc($res);
+	$row = mysqli_fetch_assoc($res);
 	$userid = $row['id'];
 }
 

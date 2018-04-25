@@ -11,8 +11,8 @@ WHERE u.id = $userid
 GROUP BY s.id ORDER BY COUNT(*) DESC LIMIT 30;";
 
 $stations = array();
-$res = mysql_query($sql);
-while ($row = mysql_fetch_assoc($res)) {
+$res = mysqli_query($link, $sql);
+while ($row = mysqli_fetch_assoc($res)) {
   $stations[] = $row;
 }
 

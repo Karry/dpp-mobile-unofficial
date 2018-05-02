@@ -17,6 +17,9 @@ php_value max_execution_time 300
 
 RewriteEngine on
 
+RewriteCond %{HTTPS} !=on [NC] 
+RewriteRule ^.*$ https://dpp\.karry\.cz%{REQUEST_URI} [R=permanent,QSA,L]
+
 order deny,allow
 #deny from all
 allow from all

@@ -29,17 +29,20 @@ header("Expires: ".GMDate("D, d M Y H:i:s")." GMT");
 
 <?php
 require_once "./functions.php";
+loadOrDie("curl");
+
 
 function updateStation($userid, $station){
-	$res = mysql_query("SELECT * FROM idos_station WHERE name = '".mysql_real_escape_string($station)."'");
-	if (mysql_num_rows($res) <= 0){
-		mysql_query("INSERT INTO idos_station (name) VALUES ('".mysql_real_escape_string($station)."');");
-		$stationid = mysql_insert_id();
+	global $link;
+	$res = mysqli_query($link, "SELECT * FROM idos_station WHERE name = '".mysqli_real_escape_string($link, $station)."'");
+	if (mysqli_num_rows($res) <= 0){
+		mysqli_query($link, "INSERT INTO idos_station (name) VALUES ('".mysqli_real_escape_string($link, $station)."');");
+		$stationid = mysqli_insert_id();
 	}else{
-		$row = mysql_fetch_assoc($res);
+		$row = mysqli_fetch_assoc($res);
 		$stationid = $row['id'];
 	}
-	mysql_query("INSERT INTO idos_access (user_id, station_id, time) VALUES ($userid, $stationid, NOW());");
+	mysqli_query($link, "INSERT INTO idos_access (user_id, station_id, time) VALUES ($userid, $stationid, NOW());");
 	//echo "INSERT INTO idos_access (user_id, station_id, time) VALUES ($userid, $stationid, NOW());";
 }
 
@@ -99,12 +102,11 @@ $items = preg_split('/<div class="spojeni[^>]*>/',$content);
 
 if ((is_bool($items) && !$items) || count($items) <= 1 ){
   echo "Spoj nenalezen. <a href=\"$url\">Zombrazit originální stránku DPP.</a>";
-  break;
 }else{
   // skip first line with start of original document
   for ($i= 1; $i < count($items); $i++){
       echo "<hr />";
-      $lines = split ( "\n", strip_tags( $items[$i] ));
+      $lines = preg_split( '/\n/', strip_tags( $items[$i] ));
       for ($line = 3; $line < count($lines); $line++){
           $lines[$line] = trim($lines[$line]);
           if ($lines[$line] == "" || $lines[$line] == "&nbsp;")

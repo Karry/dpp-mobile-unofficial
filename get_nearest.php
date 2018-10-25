@@ -21,7 +21,7 @@ function approximateDistance($lat1, $lon1, $lat2, $lon2) {
 }
 
 function icon($alt, $img) {
-  return "<img src=\"icons/" . $img . "\" alt=\"" . $alt . "\" /> ";
+  return "<img src=\"pics/" . $img . "\" alt=\"" . $alt . "\" /> ";
 }
 
 function icons($typeArr) {

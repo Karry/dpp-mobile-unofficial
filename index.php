@@ -55,24 +55,28 @@ Header("Content-Type: text/html; charset=utf-8");
       function send(id){
         document.getElementById(id).submit();
       }
-    
-      $(document).ready(function () {
-        var x=$("#nearest");              
-        if (navigator.geolocation){
-          navigator.geolocation.getCurrentPosition(function (position){
-            
-            $.get("./get_nearest.php", 
+      function loadNearest(position){
+        var x=$("#nearest");
+        $.get("./get_nearest.php", 
             {lat: position.coords.latitude, lon: position.coords.longitude},
             function(data) {
               x.html(data);
-            } );
-            
-            /*
-            x.html("Latitude: " + position.coords.latitude + 
-              "<br>Longitude: " + position.coords.longitude);	
-             */
-            x.html("<small>Loading nearest stations...</small>");
-          });
+            });
+        
+        /*
+        x.html("Latitude: " + position.coords.latitude + 
+          "<br>Longitude: " + position.coords.longitude);	
+          */
+        if (x.html().length == 0){
+          x.html("<small>Loading nearest stations...</small>");
+        }
+      }
+    
+      $(document).ready(function () {
+        
+        if (navigator.geolocation){
+          navigator.geolocation.getCurrentPosition(loadNearest);
+          navigator.geolocation.watchPosition(loadNearest);
         }else{
           x.html("Geolocation is not supported by this browser.");
         }

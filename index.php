@@ -138,7 +138,7 @@ Header("Content-Type: text/html; charset=utf-8");
 
       <hr />
 
-      <p>Napraseno v PHP jen aby to fungovalo. Zdrojáky (pod GPLv2) jsou dostupné na <a href="http://gitorious.org/dpp-mobile-web/">Gitorious</a>.</p>
+      <p>Napraseno v PHP jen aby to fungovalo. Zdrojáky (pod GPLv2) jsou dostupné na <a href="https://github.com/Karry/dpp-mobile-unofficial.git">Githubu</a>.</p>
 
     </div>
 
